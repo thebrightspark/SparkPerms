@@ -14,7 +14,7 @@ The following commands are available in-game:
   Reloads the configured permissions from the config file (useful if it has been externally modified).
 - `/perms allow <permission>`  
   Allows the given permission for all players.
-- `/perms revoke <permission> [recursive:true|false]`
+- `/perms revoke <permission> [recursive:true|false]`  
   Revokes the given permission for all players.
   If the optional `recursive` argument is provided as `true`, then all permissions starting with the one given will be
   revoked.
