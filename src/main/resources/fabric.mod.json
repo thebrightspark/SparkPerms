@@ -1,0 +1,20 @@
+{
+	"schemaVersion": 1,
+	"id": "sparkperms",
+	"version": "${version}",
+	"name": "SparkPerms",
+	"description": "",
+	"authors": [],
+	"contact": {},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["brightspark.sparkperms.SparkPerms"]
+	},
+	"depends": {
+		"fabricloader": ">=0.15.1",
+		"fabric": "*",
+		"minecraft": "1.20.1",
+		"fabric-permissions-api-v0": "*"
+	}
+}
