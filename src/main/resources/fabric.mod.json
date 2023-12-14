@@ -12,7 +12,7 @@
 		"main": ["brightspark.sparkperms.SparkPerms"]
 	},
 	"depends": {
-		"fabricloader": ">=0.15.1",
+		"fabricloader": ">=0.14.24",
 		"fabric": "*",
 		"minecraft": "1.20.1",
 		"fabric-permissions-api-v0": "*"
