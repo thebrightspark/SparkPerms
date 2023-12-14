@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import me.lucko.fabric.api.permissions.v0.OfflinePermissionCheckEvent;
 import me.lucko.fabric.api.permissions.v0.PermissionCheckEvent;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.util.TriState;
@@ -34,6 +35,7 @@ public class SparkPerms implements ModInitializer {
 	private static final Logger LOG = LoggerFactory.getLogger(SparkPerms.class);
 	private static final String PERMS_FILE_NAME = "sparkperms.txt";
 	private static final String REGEX_PERMISSION = "^(?:\\w+\\.?)+$";
+	private static final String COMMAND_PERM = "command.sparkperms";
 	private static final DynamicCommandExceptionType EXCEPTION_INVALID_PERM =
 		new DynamicCommandExceptionType(o -> Text.of("'" + o + "' is not a valid permission name"));
 	private final HashSet<String> allowedPerms = new HashSet<>();
@@ -96,7 +98,7 @@ public class SparkPerms implements ModInitializer {
 
 	private LiteralArgumentBuilder<ServerCommandSource> createCommand() {
 		return literal("perms")
-			.requires(source -> source.hasPermissionLevel(2))
+			.requires(Permissions.require(COMMAND_PERM, 2))
 			.then(literal("reload")
 				.executes(context -> {
 					CompletableFuture.runAsync(this::loadPerms).thenRunAsync(() ->
@@ -109,6 +111,7 @@ public class SparkPerms implements ModInitializer {
 				})
 			)
 			.then(literal("list")
+				.requires(Permissions.require(COMMAND_PERM + ".list", 2))
 				.executes(context -> {
 					context.getSource().sendFeedback(
 						() -> Text.of(allowedPerms.stream().sorted().collect(Collectors.joining("\n"))),
@@ -118,6 +121,7 @@ public class SparkPerms implements ModInitializer {
 				})
 			)
 			.then(literal("allow")
+				.requires(Permissions.require(COMMAND_PERM + ".allow", 2))
 				.then(argument("permission", StringArgumentType.string())
 					.executes(context -> {
 						String permission = StringArgumentType.getString(context, "permission");
@@ -129,6 +133,7 @@ public class SparkPerms implements ModInitializer {
 				)
 			)
 			.then(literal("revoke")
+				.requires(Permissions.require(COMMAND_PERM + ".revoke", 2))
 				.then(argument("permission", StringArgumentType.string())
 					.suggests((context, builder) ->
 						CommandSource.suggestMatching(allowedPerms.stream().sorted(), builder)
@@ -154,6 +159,7 @@ public class SparkPerms implements ModInitializer {
 				)
 			)
 			.then(literal("clear")
+				.requires(Permissions.require(COMMAND_PERM + ".clear", 2))
 				.executes(context -> {
 					if (!allowedPerms.isEmpty()) {
 						allowedPerms.clear();
