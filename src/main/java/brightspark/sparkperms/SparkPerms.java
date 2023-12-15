@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import me.lucko.fabric.api.permissions.v0.OfflinePermissionCheckEvent;
 import me.lucko.fabric.api.permissions.v0.PermissionCheckEvent;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.api.ModInitializer;
@@ -47,9 +46,6 @@ public class SparkPerms implements ModInitializer {
 		loadPerms();
 
 		PermissionCheckEvent.EVENT.register((source, permission) -> checkPermission(permission));
-		OfflinePermissionCheckEvent.EVENT.register((uuid, permission) ->
-			CompletableFuture.completedFuture(checkPermission(permission))
-		);
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
 			dispatcher.register(createCommand())
 		);
