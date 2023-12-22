@@ -58,6 +58,10 @@ public class SparkPerms implements ModInitializer {
 		return LOG.atInfo().setMessage(MOD_ID + ": " + message);
 	}
 
+	private static LoggingEventBuilder logDebug(String message) {
+		return LOG.atDebug().setMessage(MOD_ID + ": " + message);
+	}
+
 	private static LoggingEventBuilder error(String message, Exception cause) {
 		return LOG.atError().setMessage(MOD_ID + ": " + message).setCause(cause);
 	}
@@ -96,12 +100,12 @@ public class SparkPerms implements ModInitializer {
 	}
 
 	private TriState checkPermission(String permission) {
-		log("Checking permission {}").addArgument(permission).log();
+		logDebug("Checking permission {}").addArgument(permission).log();
 		if (allowedPerms.stream().anyMatch(permission::startsWith)) {
 			log("Allowing command with permission {}").addArgument(permission).log();
 			return TriState.TRUE;
 		}
-		log("Check failed for permission {}").addArgument(permission).log();
+		logDebug("Check failed for permission {}").addArgument(permission).log();
 		return TriState.DEFAULT;
 	}
 
